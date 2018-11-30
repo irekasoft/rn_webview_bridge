@@ -84,6 +84,7 @@ export default class App extends Component<{}> {
             scrollEnabled={true}
             useWebKit={true}
             source={require("./resources/index.html")}
+            // source={{uri:'http://localhost:3000/'}}            
             onMessage={this.onWebViewMessage}
           />
         </View>

@@ -30,15 +30,10 @@
     <strong>Value From RN:</strong>
     </br>   
     <div id="callbackValue"></div>
-
-
 </div>
 <script>
-
-    window.counter = 0;
     
     function clickHandler() {
-        window.counter++;
         
         window.webViewBridge.send('handleDataReceived', {counter:'item'}, function(res) {
             window.document.getElementById('data').innerHTML = "Alert Shown";
@@ -74,9 +69,7 @@
             delete callbacks[message.msgId];
         }
 
-    });
-
-	
+    });	
 
 </script>
 
