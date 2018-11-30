@@ -58,6 +58,7 @@
 		};
 
 		window.document.addEventListener('message', function(e) {
+			
 			console.log("message received from react native");
 
 			var message;
@@ -81,6 +82,7 @@
 			}
 
 		});
+
 	};
 
 	init();

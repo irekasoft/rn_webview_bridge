@@ -22,21 +22,61 @@
 <body>
 <div id="container">
     <button id="button" onclick="clickHandler();" >Send to RN</button>
+    </br>   
+    <strong>Some data here</strong>
+    </br>   
+    <div id="data"></div>
+
+    <strong>Value From RN:</strong>
+    </br>   
+    <div id="callbackValue"></div>
+
+
 </div>
 <script>
-    
+
     window.counter = 0;
     
     function clickHandler() {
-
         window.counter++;
         
         window.webViewBridge.send('handleDataReceived', {counter:'item'}, function(res) {
-            //window.document.getElementById("button").setAttribute("style", "background-color: " + res);
+            window.document.getElementById('data').innerHTML = "Alert Shown";
         }, function(err) {
-			//window.document.getElementById("container").setAttribute("style", "background-color: " + err);
+            window.document.getElementById('data').innerHTML = "Alert not Shown";
         });
     }
+
+    window.document.addEventListener('message', function(e) {
+			
+        console.log("message received from react native");
+
+        var message;
+        try {
+            message = JSON.parse(e.data)
+        }
+        catch(err) {
+            console.error("failed to parse message from react-native " + err);
+            return;
+        }
+
+        //trigger callback
+
+        window.document.getElementById('callbackValue').innerHTML = message;
+
+        if (message.args && callbacks[message.msgId]) {
+            if (message.isSuccessfull) {
+                callbacks[message.msgId].onsuccess.apply(null, message.args);
+            }
+            else {
+                callbacks[message.msgId].onerror.apply(null, message.args);
+            }
+            delete callbacks[message.msgId];
+        }
+
+    });
+
+	
 
 </script>
 

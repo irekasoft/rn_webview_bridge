@@ -19,12 +19,21 @@ export default class App extends Component<{}> {
   }
 
   handleDataReceived(msgData) {
+    
     this.setState({
       text2: `Message from web view ${msgData.data}`
     });
+
     msgData.isSuccessfull = true;
     msgData.args = [msgData.data % 2 ? "green" : "red"];
+
     this.myWebView.postMessage(JSON.stringify(msgData));
+
+
+  }
+
+  sendCallbackToWeb(msg){
+    this.myWebView.postMessage(JSON.stringify(msg));
   }
 
   onWebViewMessage(event) {
@@ -42,9 +51,9 @@ export default class App extends Component<{}> {
         'Alert Title',
         'My Alert Msg',
         [
-          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
+          {text: 'Ask me later', onPress: () => this.sendCallbackToWeb('ask me later') },
+          {text: 'Cancel', onPress: () => this.sendCallbackToWeb('cancel'), style: 'cancel'},
+          {text: 'OK', onPress: () => this.sendCallbackToWeb('ok')},
         ],
         { cancelable: false }
       )
